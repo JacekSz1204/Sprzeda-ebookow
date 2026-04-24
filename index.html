@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BookStore – najlepsza polska platforma z e-bookami. Programowanie, Data Science, Design, Marketing i wiele więcej." />
+  <title>BookStore – E-Booki po Polsku</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== Navbar ===== -->
+  <header class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">📚 Book<span>Store</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Strona główna</a></li>
+          <li><a href="index.html#books">E-Booki</a></li>
+          <li><a href="index.html#categories">Kategorie</a></li>
+          <li><a href="index.html#about">O nas</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn">
+          🛒 Koszyk <span class="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Ucz się szybciej z<br/><em>najlepszymi e-bookami</em></h1>
+        <p>Setki polskich e-booków z programowania, Data Science, designu i biznesu. Pobierz natychmiast po zakupie.</p>
+        <div class="hero-actions">
+          <a href="#books" class="btn btn-white">🔍 Przeglądaj e-booki</a>
+          <a href="#categories" class="btn btn-outline-white">📂 Kategorie</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-books" id="heroBooksDisplay"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Stats Bar ===== -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stat-item">📚 <strong>50+</strong> e-booków</div>
+      <div class="stat-item">⭐ <strong>4.8/5</strong> średnia ocen</div>
+      <div class="stat-item">👩‍💻 <strong>12 000+</strong> czytelników</div>
+      <div class="stat-item">📥 <strong>Natychmiastowe</strong> pobieranie</div>
+      <div class="stat-item">🔄 <strong>30 dni</strong> gwarancja zwrotu</div>
+    </div>
+  </div>
+
+  <!-- ===== Categories ===== -->
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Kategorie</span>
+        <h2>Znajdź swój temat</h2>
+        <p>Od programowania po finanse – mamy e-booki na każdy temat.</p>
+      </div>
+      <div class="categories-grid" id="categoriesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== Books ===== -->
+  <section class="section bg-light" id="books">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Katalog</span>
+        <h2>Wszystkie e-booki</h2>
+        <p>Wyszukaj interesujący Cię tytuł lub przefiltruj według kategorii i ceny.</p>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="search-filter">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Szukaj e-booków..." aria-label="Wyszukaj e-book" />
+        </div>
+        <select class="filter-select" id="sortSelect" aria-label="Sortuj">
+          <option value="default">Domyślne</option>
+          <option value="price-asc">Cena rosnąco</option>
+          <option value="price-desc">Cena malejąco</option>
+          <option value="rating">Ocena</option>
+          <option value="newest">Najnowsze</option>
+        </select>
+        <select class="filter-select" id="categoryFilter" aria-label="Kategoria">
+          <option value="">Wszystkie kategorie</option>
+        </select>
+      </div>
+
+      <div class="books-grid" id="booksGrid"></div>
+      <div id="noResults" class="text-center text-muted mt-24 hidden">
+        <p style="font-size:1.1rem">😕 Brak wyników dla Twoich kryteriów.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Why Us ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Dlaczego my?</span>
+        <h2>Wszystko, czego potrzebujesz</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Natychmiastowy dostęp</h3>
+          <p>Po zakupie pobierasz e-book od razu. Żadnego czekania na przesyłkę.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Czytaj wszędzie</h3>
+          <p>Formaty PDF, EPUB i MOBI działają na każdym urządzeniu – komputerze, tablecie i smartfonie.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎓</div>
+          <h3>Ekspercka wiedza</h3>
+          <p>Autorzy to praktycy z wieloletnim doświadczeniem w branży, nie tylko teorią.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>Gwarancja zwrotu</h3>
+          <p>Nie jesteś zadowolony? Zwrócimy Ci pieniądze w ciągu 30 dni bez pytań.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Bezpieczne płatności</h3>
+          <p>Płatności chronione szyfrowaniem SSL. Akceptujemy karty, BLIK i przelewy.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔁</div>
+          <h3>Darmowe aktualizacje</h3>
+          <p>Kupujesz raz i masz dostęp do wszystkich przyszłych aktualizacji danego tytułu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Testimonials ===== -->
+  <section class="section bg-light">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Opinie</span>
+        <h2>Co mówią czytelnicy?</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">„Mistrz JavaScript" zmienił moje podejście do programowania. Jasny język, świetne przykłady i natychmiastowe zastosowanie w praktyce.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👨‍💻</div>
+            <div>
+              <div class="author-name">Krzysztof M.</div>
+              <div class="author-role">Frontend Developer</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">„Python dla Analityków" to najlepszy e-book data science w języku polskim. Przeszłam z Excela do zaawansowanej analizy w 3 tygodnie!</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👩‍🔬</div>
+            <div>
+              <div class="author-name">Monika K.</div>
+              <div class="author-role">Analityk Danych</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">Jako PM skorzystałem z kilku e-booków o Agile i finansach. Niesamowita wartość za tę cenę. Polecam wszystkim, którzy chcą rozwijać się zawodowo.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">🧑‍💼</div>
+            <div>
+              <div class="author-name">Rafał W.</div>
+              <div class="author-role">Product Manager</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Gotowy na nową wiedzę?</h2>
+      <p>Dołącz do 12 000 czytelników i zacznij naukę już dziś. Pierwsze zamówienie z kodem <strong>EBOOK10</strong> – 10% taniej!</p>
+      <a href="#books" class="btn btn-white">🛒 Kup pierwszy e-book</a>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">📚 Book<span>Store</span></div>
+          <p class="footer-desc">Polska platforma z e-bookami dla profesjonalistów. Uczymy, bo wierzymy, że wiedza zmienia życie.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link" aria-label="Facebook">f</a>
+            <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="YouTube">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>E-Booki</h4>
+          <ul>
+            <li><a href="#books">Programowanie</a></li>
+            <li><a href="#books">Data Science</a></li>
+            <li><a href="#books">Design</a></li>
+            <li><a href="#books">Marketing</a></li>
+            <li><a href="#books">Biznes</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Informacje</h4>
+          <ul>
+            <li><a href="#">O nas</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Autorzy</a></li>
+            <li><a href="#">Kontakt</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Pomoc</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Polityka zwrotów</a></li>
+            <li><a href="#">Regulamin</a></li>
+            <li><a href="#">Polityka prywatności</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 BookStore. Wszelkie prawa zastrzeżone.</span>
+        <span>Bezpieczne płatności: 💳 BLIK 🏦 Przelew</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    /* ===== Render hero mini-covers ===== */
+    const heroBooks = document.getElementById("heroBooksDisplay");
+    if (heroBooks) {
+      BOOKS.slice(0, 4).forEach(b => {
+        const div = document.createElement("div");
+        div.className = "hero-book-cover";
+        div.style.background = b.coverGradient;
+        div.textContent = b.emoji;
+        heroBooks.appendChild(div);
+      });
+    }
+
+    /* ===== Render category filter options ===== */
+    const catFilter = document.getElementById("categoryFilter");
+    CATEGORIES.filter(c => c.filter).forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c.filter;
+      opt.textContent = c.emoji + " " + c.name;
+      catFilter.appendChild(opt);
+    });
+
+    /* ===== Render categories grid ===== */
+    const categoriesGrid = document.getElementById("categoriesGrid");
+    CATEGORIES.forEach(cat => {
+      const a = document.createElement("a");
+      a.href = "#books";
+      a.className = "category-card" + (!cat.filter ? " active" : "");
+      a.dataset.filter = cat.filter || "";
+      a.innerHTML = `<span class="category-emoji">${cat.emoji}</span>
+        <div class="category-name">${cat.name}</div>
+        <div class="category-count">${getCategoryCount(cat.filter)} książek</div>`;
+      a.addEventListener("click", e => {
+        document.querySelectorAll(".category-card").forEach(c => c.classList.remove("active"));
+        a.classList.add("active");
+        catFilter.value = cat.filter || "";
+        renderBooks();
+      });
+      categoriesGrid.appendChild(a);
+    });
+
+    /* ===== Book rendering ===== */
+    function renderBookCard(book) {
+      const inCart = Cart.get().find(i => i.id === book.id);
+      return `<div class="book-card" data-id="${book.id}">
+        <div class="book-cover" style="background:${book.coverGradient}">
+          <div class="book-cover-inner">
+            <span class="book-cover-emoji">${book.emoji}</span>
+            <div class="book-cover-title">${book.title}</div>
+          </div>
+          ${book.badge ? `<span class="book-badge ${book.badgeClass}">${book.badge}</span>` : ""}
+        </div>
+        <div class="book-body">
+          <div class="book-category">${book.category}</div>
+          <h3 class="book-title"><a href="book.html?id=${book.id}">${book.title}</a></h3>
+          <div class="book-author">${book.author}</div>
+          <div class="book-rating">
+            <span class="stars">${renderStars(book.rating)}</span>
+            <span class="rating-count">${book.rating} (${book.ratingCount})</span>
+          </div>
+        </div>
+        <div class="book-footer">
+          <div class="book-price">
+            <span class="price-current">${formatPrice(book.price)}</span>
+            ${book.originalPrice ? `<span class="price-original">${formatPrice(book.originalPrice)}</span>` : ""}
+          </div>
+          <button class="add-to-cart-btn ${inCart ? 'added' : ''}" data-id="${book.id}" aria-label="Dodaj do koszyka">
+            ${inCart ? "✓ W koszyku" : "🛒 Kup"}
+          </button>
+        </div>
+      </div>`;
+    }
+
+    function renderBooks() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const sort = document.getElementById("sortSelect").value;
+      const category = document.getElementById("categoryFilter").value;
+
+      let books = BOOKS.filter(b => {
+        const matchQuery = !query ||
+          b.title.toLowerCase().includes(query) ||
+          b.author.toLowerCase().includes(query) ||
+          b.category.toLowerCase().includes(query);
+        const matchCat = !category || b.category === category;
+        return matchQuery && matchCat;
+      });
+
+      if (sort === "price-asc") books.sort((a, b) => a.price - b.price);
+      else if (sort === "price-desc") books.sort((a, b) => b.price - a.price);
+      else if (sort === "rating") books.sort((a, b) => b.rating - a.rating);
+      else if (sort === "newest") books.sort((a, b) => b.published.localeCompare(a.published));
+
+      const grid = document.getElementById("booksGrid");
+      const noResults = document.getElementById("noResults");
+      if (books.length === 0) {
+        grid.innerHTML = "";
+        noResults.classList.remove("hidden");
+      } else {
+        noResults.classList.add("hidden");
+        grid.innerHTML = books.map(renderBookCard).join("");
+        grid.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = parseInt(btn.dataset.id);
+            Cart.add(id);
+            renderBooks();
+          });
+        });
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", renderBooks);
+    document.getElementById("sortSelect").addEventListener("change", renderBooks);
+    document.getElementById("categoryFilter").addEventListener("change", (e) => {
+      const val = e.target.value;
+      document.querySelectorAll(".category-card").forEach(c => {
+        c.classList.toggle("active", c.dataset.filter === val);
+      });
+      renderBooks();
+    });
+
+    renderBooks();
+  </script>
+</body>
+</html>

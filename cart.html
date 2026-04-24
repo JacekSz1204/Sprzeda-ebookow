@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koszyk – BookStore</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== Navbar ===== -->
+  <header class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">📚 Book<span>Store</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Strona główna</a></li>
+          <li><a href="index.html#books">E-Booki</a></li>
+          <li><a href="index.html#categories">Kategorie</a></li>
+          <li><a href="index.html#about">O nas</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn">🛒 Koszyk <span class="cart-count">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Page Header ===== -->
+  <div class="page-header">
+    <div class="container">
+      <h1>🛒 Twój koszyk</h1>
+      <p>Sprawdź zamówienie i przejdź do płatności.</p>
+    </div>
+  </div>
+
+  <div class="container" id="cartPage">
+    <!-- Filled by JS -->
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">📚 Book<span>Store</span></div>
+          <p class="footer-desc">Polska platforma z e-bookami dla profesjonalistów.</p>
+        </div>
+        <div class="footer-col">
+          <h4>E-Booki</h4>
+          <ul>
+            <li><a href="index.html#books">Katalog</a></li>
+            <li><a href="index.html#categories">Kategorie</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Pomoc</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Kontakt</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Prawo</h4>
+          <ul>
+            <li><a href="#">Regulamin</a></li>
+            <li><a href="#">Polityka prywatności</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 BookStore. Wszelkie prawa zastrzeżone.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    let appliedPromo = null;
+
+    function getDiscount(total) {
+      if (!appliedPromo) return 0;
+      return total * PROMO_CODES[appliedPromo];
+    }
+
+    function renderCart() {
+      const page = document.getElementById("cartPage");
+      const items = Cart.get();
+      const books = items.map(i => BOOKS.find(b => b.id === i.id)).filter(Boolean);
+
+      if (books.length === 0) {
+        page.innerHTML = `
+          <div class="cart-empty">
+            <div class="empty-icon">🛒</div>
+            <h2>Koszyk jest pusty</h2>
+            <p>Nie masz jeszcze żadnych e-booków w koszyku. Wróć do katalogu i znajdź coś dla siebie!</p>
+            <a href="index.html#books" class="btn btn-primary">📚 Przeglądaj e-booki</a>
+          </div>`;
+        return;
+      }
+
+      const subtotal = Cart.total();
+      const discount = getDiscount(subtotal);
+      const total = subtotal - discount;
+
+      page.innerHTML = `
+        <div class="cart-layout">
+          <!-- Items -->
+          <div>
+            <div class="cart-items" id="cartItems">
+              ${books.map(b => `
+                <div class="cart-item" data-id="${b.id}">
+                  <div class="cart-item-cover" style="background:${b.coverGradient}">${b.emoji}</div>
+                  <div class="cart-item-info">
+                    <h3><a href="book.html?id=${b.id}">${b.title}</a></h3>
+                    <p>✍️ ${b.author} · 📄 ${b.format}</p>
+                  </div>
+                  <div class="cart-item-actions">
+                    <span class="cart-item-price">${formatPrice(b.price)}</span>
+                    <button class="remove-btn" data-id="${b.id}">🗑 Usuń</button>
+                  </div>
+                </div>`).join("")}
+            </div>
+
+            <!-- Checkout form -->
+            <div class="checkout-section mt-24">
+              <h3>👤 Dane do zamówienia</h3>
+              <form id="checkoutForm" novalidate>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="firstName">Imię *</label>
+                    <input type="text" id="firstName" placeholder="Jan" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="lastName">Nazwisko *</label>
+                    <input type="text" id="lastName" placeholder="Kowalski" required />
+                  </div>
+                  <div class="form-group full">
+                    <label for="email">Adres e-mail *</label>
+                    <input type="email" id="email" placeholder="jan@example.com" required />
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="checkout-section">
+              <h3>💳 Metoda płatności</h3>
+              <div class="payment-methods" id="paymentMethods">
+                <button class="payment-method active" data-method="blik">📱 BLIK</button>
+                <button class="payment-method" data-method="card">💳 Karta</button>
+                <button class="payment-method" data-method="transfer">🏦 Przelew</button>
+              </div>
+              <div id="paymentDetails"></div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="cart-summary">
+            <h2>Podsumowanie</h2>
+            <div class="summary-row">
+              <span>Produkty (${books.length})</span>
+              <span>${formatPrice(subtotal)}</span>
+            </div>
+            ${discount > 0 ? `<div class="summary-row discount">
+              <span>🎉 Kupon ${escapeHtml(appliedPromo)}</span>
+              <span>-${formatPrice(discount)}</span>
+            </div>` : ""}
+            <div class="summary-row">
+              <span>Dostawa</span>
+              <span style="color:var(--success)">Gratis</span>
+            </div>
+            <div class="summary-row total">
+              <span>Razem</span>
+              <span>${formatPrice(total)}</span>
+            </div>
+
+            <div class="promo-code">
+              <input type="text" id="promoInput" placeholder="Kod promocyjny" aria-label="Kod promocyjny" />
+              <button id="promoBtn">Użyj</button>
+            </div>
+            <div id="promoMsg" style="font-size:0.85rem;margin-bottom:12px"></div>
+
+            <button class="btn btn-primary btn-block" id="placeOrderBtn">
+              ✅ Złóż zamówienie
+            </button>
+
+            <div style="margin-top:16px;text-align:center;font-size:0.8rem;color:var(--text-muted)">
+              🔒 Bezpieczna płatność SSL · Gwarancja zwrotu 30 dni
+            </div>
+          </div>
+        </div>`;
+
+      /* Remove from cart */
+      document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          Cart.remove(parseInt(btn.dataset.id));
+          renderCart();
+        });
+      });
+
+      /* Payment methods */
+      document.querySelectorAll(".payment-method").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".payment-method").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          const method = btn.dataset.method;
+          const details = document.getElementById("paymentDetails");
+          if (method === "card") {
+            details.innerHTML = `
+              <div class="form-grid mt-16">
+                <div class="form-group full">
+                  <label>Numer karty</label>
+                  <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" id="cardNumber" />
+                </div>
+                <div class="form-group">
+                  <label>Data ważności</label>
+                  <input type="text" placeholder="MM/RR" maxlength="5" />
+                </div>
+                <div class="form-group">
+                  <label>CVV</label>
+                  <input type="text" placeholder="123" maxlength="4" />
+                </div>
+              </div>`;
+            /* Format card number */
+            const cn = document.getElementById("cardNumber");
+            if (cn) {
+              cn.addEventListener("input", () => {
+                cn.value = cn.value.replace(/\D/g, "").substring(0, 16).replace(/(.{4})/g, "$1 ").trim();
+              });
+            }
+          } else if (method === "transfer") {
+            details.innerHTML = `<div class="mt-16" style="background:var(--bg);border-radius:8px;padding:16px;font-size:0.9rem;color:var(--text-muted)">
+              Dane do przelewu zostaną wysłane na podany adres e-mail po złożeniu zamówienia.
+            </div>`;
+          } else {
+            details.innerHTML = "";
+          }
+        });
+      });
+
+      /* Promo code */
+      document.getElementById("promoBtn").addEventListener("click", () => {
+        const code = document.getElementById("promoInput").value.trim().toUpperCase();
+        const msg = document.getElementById("promoMsg");
+        if (PROMO_CODES[code]) {
+          appliedPromo = code;
+          msg.textContent = '✅ Kupon "' + escapeHtml(code) + '" zastosowany! (-' + Math.round(PROMO_CODES[code] * 100) + '%)';
+          msg.style.color = "var(--success)";
+          renderCart();
+        } else {
+          msg.textContent = "❌ Nieprawidłowy kod promocyjny.";
+          msg.style.color = "var(--danger)";
+        }
+      });
+
+      /* Place order */
+      document.getElementById("placeOrderBtn").addEventListener("click", () => {
+        const form = document.getElementById("checkoutForm");
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
+        const email = document.getElementById("email").value.trim();
+
+        if (!firstName || !lastName || !email) {
+          showToast("Uzupełnij wszystkie wymagane pola.", "error");
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showToast("Podaj prawidłowy adres e-mail.", "error");
+          return;
+        }
+
+        /* Simulate order */
+        Cart.clear();
+        const page = document.getElementById("cartPage");
+        const div = document.createElement("div");
+        div.className = "order-success";
+        div.innerHTML = `
+          <div class="success-icon">🎉</div>
+          <h1>Zamówienie złożone!</h1>
+          <p>Dziękujemy, <strong id="_oName"></strong>! Twoje e-booki zostały wysłane na adres <strong id="_oEmail"></strong>. Sprawdź skrzynkę odbiorczą.</p>
+          <a href="index.html" class="btn btn-primary">📚 Wróć do katalogu</a>`;
+        div.querySelector("#_oName").textContent = firstName;
+        div.querySelector("#_oEmail").textContent = email;
+        page.textContent = "";
+        page.appendChild(div);
+      });
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
